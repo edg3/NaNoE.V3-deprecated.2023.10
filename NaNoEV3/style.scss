@@ -133,6 +133,7 @@ body {
     background-color: #222;
     font-size: 12px;
     font-weight: 400;
+    -webkit-app-region: drag;
 
     .col-2 {
         padding-left: 8px;
@@ -152,6 +153,7 @@ body {
         background-color: #EFEFEF;
         transition: background-color 1s linear;
         font-size: 11px;
+        -webkit-app-region: no-drag;
 
         &:hover {
             cursor: pointer;

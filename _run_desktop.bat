@@ -1,2 +1,2 @@
 cd NaNoEV3
-npm start
+npm run "start"

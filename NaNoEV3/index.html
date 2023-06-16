@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <title>My Electron App</title>
+    <meta charset="UTF-8">
+    <title>NaNoE.V3</title>
+    <script src="./assets/jquery.js"></script>
 </head>
+
 <body>
+    <button class="exit-button">Exit</button>
+    <script>
+        $(document).ready(() => {
+            $('.exit-button').on('click',() => {
+                window.api.send('toMain', 'exit');
+            });
+            window.api.send('toMain','debug|JQuery events bound');
+        });
+    </script>
 </body>
+
 </html>

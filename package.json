@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "electron-rebuild": "^3.2.9",
+    "sqlite3": "^5.1.6"
+  }
+}

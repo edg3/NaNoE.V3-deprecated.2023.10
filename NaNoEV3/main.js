@@ -1,6 +1,12 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require("path");
 
+const sqlite3 = require('sqlite3');
+
+const dbHistory = new sqlite3.Database('history.nne3');
+
+var pastNovels = ['none'];
+
 function createWindow() {
     // Create the browser window
     const win = new BrowserWindow({
@@ -16,8 +22,45 @@ function createWindow() {
         },
     });
 
-    // Load the index.html file
-    win.loadFile('index.html');
+    dbHistory.run('CREATE TABLE IF NOT EXISTS history (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, filepath TEXT)');
+    //dbHistory.run('INSERT INTO history(name, filepath) VALUES (\'test\',\'test\')');
+
+    var outRows = null;
+    dbHistory.all('SELECT * FROM history', (err, rows) => {
+        // console.log(err);
+        // console.log(rows);
+        if (err) {
+            console.log(err.message);
+        }
+        else {
+            outRows = rows;
+        }
+    });
+
+    setTimeout(() => {
+        if (outRows !== null) {
+            if (outRows.length > 0) {
+                dbHistory.each("SELECT * FROM history ORDER BY id DESC", (err, row) => {
+                    if (err) {
+                        console.log('Error: couldn\'t get rows');
+                    }
+                    else {
+                        pastNovels.push(...[row]);
+                    }
+                });
+            }
+        }
+    }, 100);
+
+    setTimeout(() => {
+        if (pastNovels.length > 1) {
+            pastNovels.shift();
+        }
+        console.log(pastNovels);
+
+        // Load the index.html file
+        win.loadFile('index.html');
+    }, 200);
 }
 
 // When the app is ready, create the window
@@ -32,6 +75,8 @@ app.whenReady().then(() => {
 
 // Quit the app when all windows are closed, except on macOS
 app.on('window-all-closed', function () {
+    dbHistory.close();
+
     if (process.platform !== 'darwin') app.quit();
 });
 

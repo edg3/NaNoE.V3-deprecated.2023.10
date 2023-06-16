@@ -131,3 +131,7 @@ dist
 
 # SCSS
 *.css.map
+
+# NNEs
+*.nne
+*.nne3

@@ -17,6 +17,7 @@
             <button class="exit-button tooltip-left" data-tooltip="Exit">X</button>
         </div>
     </div>
+    <div class="content"><em>This works a low percentage of the chance. I will have to move to a different option on the list.</em></div>
     <script>
         $(document).ready(() => {
             $('.exit-button').on('click',() => {
@@ -24,7 +25,10 @@
             });
             window.api.send('toMain','debug|JQuery events bound');
 
-            // Next step: make it pull the temp testing json array and put it in the view
+            window.api.get((event, pageContent) => {
+                // alert(pageContent);
+                $('.content').html(pageContent);
+            });
         });
     </script>
 </body>

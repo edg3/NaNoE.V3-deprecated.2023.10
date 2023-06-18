@@ -9,5 +9,8 @@ contextBridge.exposeInMainWorld(
                 ipcRenderer.send(channel, data);
             }
         },
+        get: (callback) => {
+            ipcRenderer.on('page-content', (callback));
+        },
     }
 );

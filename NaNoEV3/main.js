@@ -7,6 +7,15 @@ const dbHistory = new sqlite3.Database('history.nne3');
 
 var pastNovels = ['none'];
 
+function GetNovelListView() {
+    var answer = '<div class="novel-list">';
+    /* editing here is very choppy for changes... hmm */
+    pastNovels.forEach(it => {
+        answer += '<div class="row novel-listed"><div class="col-12">' + it.id + it.name + it.filepath + '</div></div>';
+    });
+    return answer + '</div>';
+}
+
 function createWindow() {
     // Create the browser window
     const win = new BrowserWindow({
@@ -61,6 +70,10 @@ function createWindow() {
         // Load the index.html file
         win.loadFile('index.html');
     }, 200);
+
+    setTimeout(() => {
+        win.webContents.send('page-content', GetNovelListView());
+    }, 300);
 }
 
 // When the app is ready, create the window
@@ -92,3 +105,4 @@ ipcMain.on('toMain', (event, args) => {
             break;
     }
 });
+
